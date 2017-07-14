@@ -1,0 +1,6 @@
+package: github.com/DaidoujiChen/hparser
+import:
+- package: github.com/antchfx/xpath
+- package: github.com/antchfx/xquery
+  subpackages:
+  - html
