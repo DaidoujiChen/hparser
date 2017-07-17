@@ -116,8 +116,8 @@ func showKey(url string) (match string, err error) {
 
 // TODO: 目前應該就只有第一頁, 最多 40 張圖片
 
-// ImagesFrom 解析出一個 gallery 中所有的圖片
-func ImagesFrom(g GMetaData) (imgURLs []string, err error) {
+// ImagesFromMetaData 解析出一個 gallery 中所有的圖片
+func ImagesFromMetaData(g GMetaData) (imgURLs []string, err error) {
 
 	// 取得該 gallery 單一頁面內容
 	url := "https://e-hentai.org/g/" + strconv.Itoa(g.GID) + "/" + g.Token + "/"
@@ -167,4 +167,16 @@ func ImagesFrom(g GMetaData) (imgURLs []string, err error) {
 	wg.Wait()
 
 	return imgURLs, nil
+}
+
+// ImagesFromURL 解析出一個 gallery 中所有的圖片
+func ImagesFromURL(url string) (imgURLs []string, err error) {
+	g, err := gDataFromURLs([]string{url})
+	if err != nil {
+		return imgURLs, err
+	}
+	if len(g.Items) == 1 {
+		return ImagesFromMetaData(g.Items[0])
+	}
+	return imgURLs, errors.New("Gallery Not Found")
 }
